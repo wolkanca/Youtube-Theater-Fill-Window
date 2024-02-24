@@ -22,9 +22,6 @@ html.tiyatro.vid body.scrolltop #full-bleed-container {
     position: absolute;
     top: 0;
 }
-html body #voice-search-button,
-html .ytp-exp-ppp-update .ytp-paid-content-overlay-link,
-html .sbdd_c,
 html.tiyatro.vid body.scrolltop #masthead-container {
     visibility: hidden;
     position: absolute;
