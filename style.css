@@ -1,6 +1,6 @@
 /*
 Youtube Theater Fill Window
-A script to make the theater mode in youtube videos better and big enough to cover the window.
+A script to make the theater mode in youtube videos better and big enough to cover the window. - Youtube videolarında tiyatro modunu daha iyi ve pencereyi kaplayacak şekilde büyük hale getirmek için bir script. 
 https://github.com/wolkanca/Youtube-Theater-Fill-Window
 Volkan Yılmaz - wolkanca.com
 */
@@ -11,9 +11,9 @@ html {
 // If you are using dark mode, turn it on.
     color-scheme: dark;
     scrollbar-width: thin;
-
 }
 */
+
 html.tiyatro.vid {
     scrollbar-width: none !important;
     --ytd-toolbar-height: 0 !important;
@@ -47,6 +47,13 @@ html.tiyatro.vid body.scrolltop #full-bleed-container.ytd-watch-flexy {
 }
 
 html.tiyatro.vid body.scrolltop div#columns {
-    position: relative;
-    z-index: 0;
+    margin-top: 100vh !important;
+}
+
+html.tiyatro.vid video.video-stream.html5-main-video {
+    width: 100% !important;
+    height: auto !important;
+    object-fit: cover;
+    top: 0 !important;
+    left: 0 !important;
 }
