@@ -7,59 +7,79 @@ Volkan Yılmaz - wolkanca.com
 
 const tiyatro = function () {
     'use strict';
-    const w = window;
-    const d = document;
-    const search = new URLSearchParams(w.location.search);
-    const vid = search.get('v');
-    const roothtml = d.getElementsByTagName('html')[0];
-    const body = d.body;
-    const t = 'tiyatro';
-    const wtoggle = function (e) {
-        roothtml.classList.toggle(t);
-    };
-    if (vid) {
-        roothtml.classList.add('vid');
-        body.classList.add('scrolltop');
-        cookieStore.addEventListener('change', ({ changed }) => {
-            for (const { name, value } of changed) {
-                //console.log(`${name} was set to ${value}`);
-                if (name === 'wide') {
-                    if (value === '1') {
-                        console.log('wide 1');
-                        roothtml.classList.add(t);
-                    } else {
-                        console.log('wide 0');
-                        roothtml.classList.remove(t);
-                    }
-                }
-            }
-        });
-        setTimeout(() => {
-            function getCookie(name) {
-                const value = `; ${d.cookie}`;
-                const parts = value.split(`; ${name}=`);
-                if (parts.length === 2) return parts.pop().split(';').shift();
-            }
-            const wide = getCookie('wide');
-            if (wide === '1') {
-                roothtml.classList.add(t);
-                //console.log(wide);
-                body.classList.add('scrolltop');
-                w.scrollTo({ top: 0, behavior: 'smooth' });
-            }
-        }, 900);
-        w.addEventListener('scroll', function () {
-            if (w.scrollY == 0) {
-                body.classList.add('scrolltop');
+    let w = window,
+        d = document,
+        vid = false, // ?v=
+        wide1 = false, // wide=1/0
+        scrollmu, // scroll 0/1
+        varCounter = 0, // count run,
+        html = d.getElementsByTagName('html')[0],
+        body = d.body,
+        t = 'tiyatro',
+        v = 'v',
+        st = 'scrolltop';
+
+    setInterval(() => {
+        if (w.location.search) {
+            vid = true;
+        } else {
+            vid = false;
+        }
+        if (document.cookie.indexOf('wide=1') != -1) {
+            wide1 = true;
+        } else {
+            wide1 = false;
+        }
+    }, 1);
+
+    setTimeout(() => {
+        if (varCounter <= 1) {
+            varCounter++;
+            if (vid) {
+                html.classList.add(v);
             } else {
-                body.classList.remove('scrolltop');
+                html.classList.remove(v);
+                html.classList.remove(t);
             }
-        });
-    } else {
-        roothtml.classList.remove('vid');
-        roothtml.classList.remove(t);
-        body.classList.remove('scrolltop');
-    }
+            if (wide1) {
+                html.classList.add(t);
+            } else {
+                html.classList.remove(v);
+                html.classList.remove(t);
+            }
+            if (vid && wide1) {
+                html.classList.add(t);
+            } else {
+                html.classList.remove(t);
+            }
+            clearInterval();
+        }
+    }, 10);
+
+    cookieStore.addEventListener('change', ({ changed }) => {
+        for (let { name, value } of changed) {
+            if (value === '1') {
+                html.classList.add(v);
+                html.classList.add(t);
+                body.classList.add(st);
+            } else if (value === '0') {
+                html.classList.remove(v);
+                html.classList.remove(t);
+                body.classList.remove(st);
+            }
+        }
+    });
+    w.addEventListener('scroll', function () {
+        console.log(vid + ' -  ' + wide1);
+        if (vid && wide1) {
+            if (w.scrollY == 0) {
+                scrollmu = 0;
+                body.classList.add(st);
+            } else {
+                scrollmu = 1;
+                body.classList.remove(st);
+            }
+        }
+    });
 };
 window.addEventListener('yt-navigate-finish', tiyatro);
-tiyatro();
