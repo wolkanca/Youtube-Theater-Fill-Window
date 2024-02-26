@@ -1,3 +1,10 @@
+/*
+Youtube Theater Fill Window v0.2.1
+A script to make the theater mode in youtube videos better and big enough to cover the window. - Youtube videolarında tiyatro modunu daha iyi ve pencereyi kaplayacak şekilde büyük hale getirmek için bir script. 
+https://wolkanca.com/youtube-theater-mode-fix/
+Volkan Yılmaz - wolkanca.com
+*/
+
 const tiyatro = function () {
     'use strict';
     let w = window,
@@ -6,6 +13,7 @@ const tiyatro = function () {
         wide1 = false, // wide=1/0
         scrollmu, // scroll 0/1
         varCounter = 0, // count run,
+        masthead,
         html = d.getElementsByTagName('html')[0],
         body = d.body,
         t = 'tiyatro',
@@ -20,7 +28,9 @@ const tiyatro = function () {
         }
         if (document.cookie.indexOf('wide=1') != -1) {
             wide1 = true;
+            masthead = d.getElementById('masthead-container');
         } else {
+            masthead = d.getElementById('copyright');
             wide1 = false;
         }
     }, 1);
@@ -61,7 +71,7 @@ const tiyatro = function () {
         }
     });
     w.addEventListener('scroll', function () {
-        console.log(vid + ' -  ' + wide1);
+        //console.log(vid + ' -  ' + wide1);
         if (vid && wide1) {
             if (w.scrollY == 0) {
                 scrollmu = 0;
@@ -72,5 +82,60 @@ const tiyatro = function () {
             }
         }
     });
+
+    const mouse = function (element, delay, callback) {
+        // Counter Object
+        element.ms = {};
+
+        // Counter Value
+        element.ms.x = 0;
+
+        // Counter Function
+        element.ms.y = function () {
+            // Callback Trigger
+            if (++element.ms.x == delay)
+                element.ms.callback(element, element.ms);
+        };
+
+        // Counter Callback
+        element.ms.callback = callback;
+
+        // Function Toggle
+        element.ms.toggle = function (state) {
+            // Stop Loop
+            if ([0, 'off'][state]) clearInterval(element.ms.z);
+
+            // Create Loop
+            if ([1, 'on'][state]) element.ms.z = setInterval(element.ms.y, 1);
+        };
+
+        // Function Disable
+        element.ms.remove = function () {
+            // Delete Counter Object
+            element.ms = null;
+            return delete element.ms;
+        };
+
+        // Function Trigger
+        element.onmousemove = function () {
+            // Reset Counter Value
+            element.ms.x = -1;
+        };
+
+        // Return
+        return element.ms;
+    };
+
+    setTimeout(() => {
+        if (vid && wide1) {
+            let x = mouse(w, 1000, function (a) {
+                masthead.style.display = 'none';
+            });
+            x.toggle(1);
+            addEventListener('mousemove', function () {
+                masthead.style.display = 'block';
+            });
+        }
+    }, 1000);
 };
 window.addEventListener('yt-navigate-finish', tiyatro);

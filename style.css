@@ -1,7 +1,7 @@
 /*
-Youtube Theater Fill Window
+Youtube Theater Fill Window v0.2.1
 A script to make the theater mode in youtube videos better and big enough to cover the window. - Youtube videolarında tiyatro modunu daha iyi ve pencereyi kaplayacak şekilde büyük hale getirmek için bir script. 
-https://github.com/wolkanca/Youtube-Theater-Fill-Window
+https://wolkanca.com/youtube-theater-mode-fix/
 Volkan Yılmaz - wolkanca.com
 */
 
@@ -12,37 +12,28 @@ html:not(:fullscreen) {
 html:not(:fullscreen).tiyatro.v {
     scrollbar-width: none !important;
     --ytd-toolbar-height: 0 !important;
+    --ytd-masthead-height: 0 !important;
 }
-html:not(:fullscreen).tiyatro.v body ytd-app {
+html:not(:fullscreen).tiyatro.v ytd-app {
     width: 100vw;
     min-width: 100vw;
     scrollbar-width: none;
-    transition: 0.1s;
-}
-html:not(:fullscreen).tiyatro.v body.scrolltop ytd-app {
-    scrollbar-width: none;
     --ytd-masthead-height: 0 !important;
-    transition: 0.1s;
 }
 html:not(:fullscreen).tiyatro.v body:not(.scrolltop) #masthead-container {
     opacity: 0.8;
-    transition: 0.5s;
 }
 html:not(:fullscreen).tiyatro.v body.scrolltop #masthead-container {
     opacity: 0 !important;
     transition: 0.5s;
 }
-html:not(:fullscreen).tiyatro.v video.video-stream.html5-main-video {
-    inset: 0 !important;
-    width: 100% !important;
+
+html:not(:fullscreen).tiyatro.v div#full-bleed-container {
+    max-height: 100vh !important;
+    min-height: 100vh !important;
+    height: 100vh !important;
 }
-html:not(:fullscreen).tiyatro.v .ytp-chrome-bottom {
-    max-width: 100vw;
-    min-width: 98%;
-    width: 98% !important;
-    left: 1% !important;
-    right: 1% !important;
-    margin: auto !important;
-    display: block !important;
-    text-align: center !important;
+
+html:not(:fullscreen).tiyatro.v video.video-stream.html5-main-video {
+    top: 0 !important;
 }
