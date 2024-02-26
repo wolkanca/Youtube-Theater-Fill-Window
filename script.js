@@ -1,10 +1,3 @@
-/*
-Youtube Theater Fill Window
-A script to make the theater mode in youtube videos better and big enough to cover the window. - Youtube videolarında tiyatro modunu daha iyi ve pencereyi kaplayacak şekilde büyük hale getirmek için bir script
-https://github.com/wolkanca/Youtube-Theater-Fill-Window
-Volkan Yılmaz - wolkanca.com
-*/
-
 const tiyatro = function () {
     'use strict';
     let w = window,
@@ -38,14 +31,12 @@ const tiyatro = function () {
             if (vid) {
                 html.classList.add(v);
             } else {
-                html.classList.remove(v);
-                html.classList.remove(t);
+                html.classList.remove(v), html.classList.remove(t);
             }
             if (wide1) {
                 html.classList.add(t);
             } else {
-                html.classList.remove(v);
-                html.classList.remove(t);
+                html.classList.remove(v), html.classList.remove(t);
             }
             if (vid && wide1) {
                 html.classList.add(t);
@@ -59,13 +50,13 @@ const tiyatro = function () {
     cookieStore.addEventListener('change', ({ changed }) => {
         for (let { name, value } of changed) {
             if (value === '1') {
-                html.classList.add(v);
-                html.classList.add(t);
-                body.classList.add(st);
+                html.classList.add(v),
+                    html.classList.add(t),
+                    body.classList.add(st);
             } else if (value === '0') {
-                html.classList.remove(v);
-                html.classList.remove(t);
-                body.classList.remove(st);
+                html.classList.remove(v),
+                    html.classList.remove(t),
+                    body.classList.remove(st);
             }
         }
     });
