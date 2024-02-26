@@ -5,6 +5,7 @@ You can use the contents of these files in browser extensions such as User JavaS
 
 My Suggestion - Benim önerim: https://chromewebstore.google.com/detail/user-javascript-and-css/nbhcbdghjpllgmfilhnhkllmkecfmpld
 
+
 ### [Youtube Theater Mode fix](https://wolkanca.com/youtube-theater-mode-fix/)
 **_Youtube tiyatro/sinema modunu değiştirdim, ama sadece kendim için._**
 ._I changed Youtube theater/cinema mode, but only for myself._
