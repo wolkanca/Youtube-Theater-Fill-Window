@@ -1,3 +1,10 @@
+/*
+Youtube Theater Fill Window v0.2.1
+A script to make the theater mode in youtube videos better and big enough to cover the window. - Youtube videolarında tiyatro modunu daha iyi ve pencereyi kaplayacak şekilde büyük hale getirmek için bir script. 
+https://wolkanca.com/youtube-theater-mode-fix/
+Volkan Yılmaz - wolkanca.com
+*/
+
 const tiyatro = function () {
     'use strict';
     let w = window,
