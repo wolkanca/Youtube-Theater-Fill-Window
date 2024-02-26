@@ -1,141 +1,133 @@
 /*
-Youtube Theater Fill Window v0.2.1
+Youtube Theater Fill Window v2.0
 A script to make the theater mode in youtube videos better and big enough to cover the window. - Youtube videolarında tiyatro modunu daha iyi ve pencereyi kaplayacak şekilde büyük hale getirmek için bir script. 
 https://wolkanca.com/youtube-theater-mode-fix/
 Volkan Yılmaz - wolkanca.com
 */
 
-const tiyatro = function () {
+(function () {
     'use strict';
     let w = window,
         d = document,
-        vid = false, // ?v=
-        wide1 = false, // wide=1/0
-        scrollmu, // scroll 0/1
-        varCounter = 0, // count run,
-        masthead,
         html = d.getElementsByTagName('html')[0],
-        body = d.body,
-        t = 'tiyatro',
-        v = 'v',
-        st = 'scrolltop';
+        V = new URL(document.location).searchParams.get('v');
 
-    setInterval(() => {
-        if (w.location.search) {
-            vid = true;
-        } else {
-            vid = false;
-        }
-        if (document.cookie.indexOf('wide=1') != -1) {
-            wide1 = true;
-            masthead = d.getElementById('masthead-container');
-        } else {
-            masthead = d.getElementById('copyright');
-            wide1 = false;
-        }
-    }, 1);
+    const tiyatro = function () {
+            let V = new URL(document.location).searchParams.get('v'),
+                ytdapp = d.getElementsByTagName('ytd-app')[0],
+                ytdwatchflexy = d.getElementsByTagName('ytd-watch-flexy')[0],
+                F,
+                T,
+                D,
+                S,
+                L;
 
-    setTimeout(() => {
-        if (varCounter <= 1) {
-            varCounter++;
-            if (vid) {
-                html.classList.add(v);
+            const toggle = function (e) {
+                if (e == '1') {
+                    html.classList.add('tiyatro');
+                    d.body.classList.add('no-scroll');
+                    ytdapp.setAttribute('scrolling', ''),
+                        ytdapp.setAttribute('masthead-hidden', ''),
+                        ytdapp.setAttribute(
+                            'style',
+                            '--ytd-app-fullerscreen-scrollbar-width: 17px; --ytd-masthead-height: 0px; --ytd-network-status-banner-display: none;'
+                        );
+                    localStorage.setItem('theater', '1');
+                    window.dispatchEvent(new Event('resize'));
+                    console.log('tiyatro');
+                } else {
+                    html.classList.remove('tiyatro');
+                    d.body.classList.remove('no-scroll');
+                    ytdapp.removeAttribute('scrolling', ''),
+                        ytdapp.removeAttribute('masthead-hidden'),
+                        ytdapp.removeAttribute('style');
+                    localStorage.removeItem('theater');
+                    console.log('tiyatro değil');
+                }
+            };
+
+            if (V) {
+                if (ytdwatchflexy.hasAttribute('fullscreen')) {
+                    F = true;
+                    T = false;
+                    D = false;
+                } else if (ytdwatchflexy.hasAttribute('theater')) {
+                    F = false;
+                    T = true;
+                    D = false;
+                } else if (ytdwatchflexy.hasAttribute('default-layout')) {
+                    F = false;
+                    T = false;
+                    D = true;
+                }
+
+                if (ytdwatchflexy.hasAttribute('flexy-large-window_')) {
+                    L = true;
+                    S = false;
+                } else if (ytdwatchflexy.hasAttribute('flexy-small-window_')) {
+                    L = false;
+                    S = true;
+                }
+            }
+
+            if (T && !F) {
+                toggle('1');
+
+                if (L) {
+                    html.classList.add('l');
+                } else if (S) {
+                    html.classList.add('s');
+                }
             } else {
-                html.classList.remove(v), html.classList.remove(t);
+                toggle('0');
+                T = false;
             }
-            if (wide1) {
-                html.classList.add(t);
-            } else {
-                html.classList.remove(v), html.classList.remove(t);
-            }
-            if (vid && wide1) {
-                html.classList.add(t);
-            } else {
-                html.classList.remove(t);
-            }
-            clearInterval();
-        }
-    }, 10);
 
-    cookieStore.addEventListener('change', ({ changed }) => {
-        for (let { name, value } of changed) {
-            if (value === '1') {
-                html.classList.add(v),
-                    html.classList.add(t),
-                    body.classList.add(st);
-            } else if (value === '0') {
-                html.classList.remove(v),
-                    html.classList.remove(t),
-                    body.classList.remove(st);
-            }
-        }
-    });
-    w.addEventListener('scroll', function () {
-        //console.log(vid + ' -  ' + wide1);
-        if (vid && wide1) {
-            if (w.scrollY == 0) {
-                scrollmu = 0;
-                body.classList.add(st);
-            } else {
-                scrollmu = 1;
-                body.classList.remove(st);
-            }
-        }
-    });
-
-    const mouse = function (element, delay, callback) {
-        // Counter Object
-        element.ms = {};
-
-        // Counter Value
-        element.ms.x = 0;
-
-        // Counter Function
-        element.ms.y = function () {
-            // Callback Trigger
-            if (++element.ms.x == delay)
-                element.ms.callback(element, element.ms);
-        };
-
-        // Counter Callback
-        element.ms.callback = callback;
-
-        // Function Toggle
-        element.ms.toggle = function (state) {
-            // Stop Loop
-            if ([0, 'off'][state]) clearInterval(element.ms.z);
-
-            // Create Loop
-            if ([1, 'on'][state]) element.ms.z = setInterval(element.ms.y, 1);
-        };
-
-        // Function Disable
-        element.ms.remove = function () {
-            // Delete Counter Object
-            element.ms = null;
-            return delete element.ms;
-        };
-
-        // Function Trigger
-        element.onmousemove = function () {
-            // Reset Counter Value
-            element.ms.x = -1;
-        };
-
-        // Return
-        return element.ms;
-    };
-
-    setTimeout(() => {
-        if (vid && wide1) {
-            let x = mouse(w, 1000, function (a) {
-                masthead.style.display = 'none';
+            cookieStore.addEventListener('change', ({ changed }) => {
+                for (let { name, value } of changed) {
+                    if (value === '1') {
+                        if (!F) {
+                            toggle('1');
+                        } else {
+                            html.classList.remove('tiyatro');
+                        }
+                    } else if (value === '0') {
+                        toggle('0');
+                    }
+                }
             });
-            x.toggle(1);
-            addEventListener('mousemove', function () {
-                masthead.style.display = 'block';
+
+            w.addEventListener('fullscreenchange', function (e) {
+                if (document.fullscreenElement) {
+                    localStorage.setItem('fullscreen', '1');
+                } else {
+                    localStorage.removeItem('fullscreen');
+
+                    if (localStorage.getItem('theater')) {
+                        toggle('1');
+                    } else {
+                        toggle('0');
+                    }
+                }
             });
-        }
-    }, 1000);
-};
-window.addEventListener('yt-navigate-finish', tiyatro);
+
+            ytdapp.addEventListener('scroll', function () {
+                if (ytdapp.scrollTop == 0) {
+                    ytdapp.setAttribute('masthead-hidden', '');
+                } else {
+                    ytdapp.removeAttribute('masthead-hidden', '');
+                }
+            });
+        },
+        tiyatro_run = function () {
+            [w, d, html].map((e) =>
+                window.addEventListener('yt-navigate-finish', tiyatro)
+            );
+        };
+
+    if (d.readyState === 'loading') {
+        d.addEventListener('DOMContentLoaded', tiyatro);
+    } else {
+        tiyatro_run();
+    }
+})();
