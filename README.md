@@ -10,7 +10,7 @@ My Suggestion - Benim önerim: https://chromewebstore.google.com/detail/user-jav
 **_Youtube tiyatro/sinema modunu değiştirdim, ama sadece kendim için._**
 ._I changed Youtube theater/cinema mode, but only for myself._
 
-![image](https://github.com/wolkanca/Youtube-Theater-Fill-Window/assets/480403/691d97e8-9e64-4008-8388-7b8676eb91c4)
+![image](https://github.com/wolkanca/Youtube-Theater-Fill-Window/assets/480403/beb309d7-2be5-4310-bbc7-a790f9ac8176)
 
 **Normal Youtube Sinema modu, playerdaki butona tıklandığında tarayıcının boyutu kadar büyümüyor ve bir maksimum genişlik sınırı var, burada detaylarını göreceğiniz ve paylaşmaya karar verdiğim basit [JavaScript](https://wolkanca.com/javascript-ogrenmek-icin-10-site-ucretsiz/) müdahalesi ile sadece theater modunu sitil([CSS](https://wolkanca.com/cssi-savunmak/)) verip genişletmiş oluyoruz, varsayılan theater modu ile devam ediyor ancak sadece ekstradan genişlik sağlıyor.**
 Normal Youtube Theater mode does not grow as large as the size of the browser when the button in the player is clicked and there is a maximum width limit, with this simple JavaScript intervention, which you will see the details below and which I decided to share, we only expand the theater mode by giving it a style (CSS), it continues with the default theater mode but only provides extra width.
