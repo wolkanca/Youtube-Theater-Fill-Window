@@ -18,7 +18,8 @@ html:not(:fullscreen).tiyatro ytd-app {
     width: 100vw;
     min-width: 100vw;
     scrollbar-width: none;
-    --ytd-masthead-height: 0;
+    --ytd-masthead-height: 0 !important;
+    --ytd-network-status-banner-display: none !important;
 }
 html:not(:fullscreen).tiyatro
     ytd-watch-flexy[full-bleed-player]
@@ -27,8 +28,26 @@ html:not(:fullscreen).tiyatro
     height: 100vh;
     min-height: 100vh;
 }
-html:not(:fullscreen).tiyatro video{
+html:not(:fullscreen).tiyatro video {
     object-fit: cover;
     height: auto;
     width: 100%;
+}
+html:not(:fullscreen).tiyatro
+    ytd-watch-flexy[fixed-panels]
+    #panels-full-bleed-container.ytd-watch-flexy,
+html:not(:fullscreen).tiyatro
+    ytd-watch-flexy[fixed-panels]
+    #chat.ytd-watch-flexy {
+    display: none;
+    visibility: hidden;
+    clip-path: inset(100%);
+    position: absolute;
+    width: 0;
+    height: 0;
+}
+html:not(:fullscreen).tiyatro
+    ytd-watch-flexy[fixed-panels]
+    #columns.ytd-watch-flexy {
+    padding-right: 0;
 }
