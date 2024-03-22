@@ -1,5 +1,5 @@
 /*
-Youtube Theater Fill Window v2.3
+Youtube Theater Fill Window v2.4
 A script to make the theater mode in youtube videos better and big enough to cover the window. - Youtube videolarında tiyatro modunu daha iyi ve pencereyi kaplayacak şekilde büyük hale getirmek için bir script. 
 https://wolkanca.com/youtube-theater-mode-fix/
 Volkan Yılmaz - wolkanca.com
@@ -10,10 +10,11 @@ Volkan Yılmaz - wolkanca.com
     let w = window,
         d = document,
         html = d.getElementsByTagName('html')[0],
-        V = new URL(document.location).searchParams.get('v');
+        V = new URL(document.location).searchParams.get('v'),
+        Tcount = 0;
 
     const tiyatro = function () {
-        let V = new URL(document.location).searchParams.get('v'),
+        let V = new URL(d.location).searchParams.get('v'),
             ytdapp = d.getElementsByTagName('ytd-app')[0],
             ytdwatchflexy = d.getElementsByTagName('ytd-watch-flexy')[0],
             wide = cookieStore.get('wide'),
@@ -34,7 +35,7 @@ Volkan Yılmaz - wolkanca.com
                         '--ytd-app-fullerscreen-scrollbar-width: 17px; --ytd-masthead-height: 0px; --ytd-network-status-banner-display: none;'
                     );
                 localStorage.setItem('theater', '1');
-                window.dispatchEvent(new Event('resize'));
+                w.dispatchEvent(new Event('resize'));
                 //console.log('tiyatro');
             } else {
                 if (!F) {
@@ -103,7 +104,7 @@ Volkan Yılmaz - wolkanca.com
         });
 
         w.addEventListener('fullscreenchange', function (e) {
-            if (document.fullscreenElement) {
+            if (d.fullscreenElement) {
                 localStorage.setItem('fullscreen', '1');
             } else {
                 localStorage.removeItem('fullscreen');
@@ -129,7 +130,14 @@ Volkan Yılmaz - wolkanca.com
         d.addEventListener('DOMContentLoaded', tiyatro);
     } else {
         [w, d, html].map((e) =>
-            window.addEventListener('yt-navigate-finish', tiyatro)
+            w.addEventListener('yt-navigate-finish', tiyatro)
         );
     }
+    let interval = setInterval(function () {
+        Tcount += 1;
+        if (Tcount > 0) {
+            clearInterval(interval);
+        }
+        tiyatro();
+    }, 2000);
 })();
